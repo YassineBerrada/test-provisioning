@@ -53,9 +53,14 @@ ${ip} ansible_user=ubuntu ansible_ssh_private_key_file=/var/lib/jenkins/.ssh/ter
 
 stage('Provision with Ansible') {
   steps {
-    sh 'ansible-playbook -i ansible/inventory.ini ansible/setup.yml'
+    sh '''
+      export ANSIBLE_HOST_KEY_CHECKING=False
+      ansible-playbook -i ansible/inventory.ini ansible/setup.yml
+    '''
   }
 }
+
+
 
   }
 }
