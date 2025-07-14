@@ -19,7 +19,7 @@ resource "aws_instance" "abc" {
 
 resource "aws_key_pair" "terraform_key" {
   key_name   = "terraform-key"
-  public_key = file("/home/ubuntu/.ssh/terraform-key.pub")  # ou chemin absolu
+  public_key = file("/var/lib/jenkins/.ssh/terraform-key.pub")
 }
 
 
