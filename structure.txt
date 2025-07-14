@@ -1,0 +1,8 @@
+.
+├── Jenkinsfile
+├── structure.txt
+└── terraform
+    ├── main.tf
+    └── variables.tf
+
+2 directories, 4 files
