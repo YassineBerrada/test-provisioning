@@ -1,0 +1,30 @@
+- name: Configure EC2 instance with Docker, Apache and Portainer
+  hosts: webserver
+  become: true
+  tasks:
+
+    - name: Install Docker and Apache
+      apt:
+        name:
+          - docker.io
+          - apache2
+        update_cache: yes
+
+    - name: Start and enable Docker
+      systemd:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Run Portainer
+      docker_container:
+        name: portainer
+        image: portainer/portainer-ce
+        state: started
+        restart_policy: always
+        ports:
+          - "9000:9000"
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - portainer_data:/data
+

@@ -28,5 +28,23 @@ pipeline {
         }
       }
     }
+    stage('Extract IP & Generate Ansible Inventory') {
+  steps {
+    script {
+      def ip = sh(script: 'cd terraform && terraform output -raw instance_ip', returnStdout: true).trim()
+      writeFile file: 'ansible/inventory.ini', text: """
+[webserver]
+${ip} ansible_user=ubuntu ansible_ssh_private_key_file=/var/lib/jenkins/.ssh/terraform-key ansible_python_interpreter=/usr/bin/python3
+"""
+    }
+  }
+}
+
+stage('Provision with Ansible') {
+  steps {
+    sh 'ansible-playbook -i ansible/inventory.ini ansible/setup.yml'
+  }
+}
+
   }
 }
